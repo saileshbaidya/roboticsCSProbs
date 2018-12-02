@@ -1,0 +1,25 @@
+class UniquePaths {
+public:
+    int **pathCount;
+    
+    int helperfunc(int m, int n) {
+        if (m == 0 || n == 0)
+            return 1;        
+        int paths = helperfunc(m - 1, n) + helperfunc(m, n - 1);
+        pathCount[m][n] = paths;
+        return paths;
+    }
+    
+    int uniquePaths(int m, int n) {
+        if (m == 0 && n == 0)
+            return 0;    
+        pathCount = new int*[m];
+        for (int i = 0; i < m; i++)
+        {
+            pathCount[i] = new int[n];
+            for(int j=0; j<n; j++)
+            pathCount[i][j] = 0;
+        }
+        return helperfunc(m-1, n-1);
+    }
+};
