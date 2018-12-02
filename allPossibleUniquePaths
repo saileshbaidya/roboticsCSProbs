@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int uniquePaths(int m, int n) {
+	if(m==0 && n==0) //If the size of matrix is 0*0, we return 0.
+		return 0;
+	else if(m==1 || n==1) //If we have only one row or/and col, there is only one possible path. 
+		return 1;
+    
+	vector<vector<int>> paths;
+	paths.resize(m);
+	for(int i=0; i<paths.size(); i++)	
+		paths[i].resize(n);
+	
+  //The number of possible paths from last row and last column elements is 1. 
+	for(int i=0; i<m; i++){
+		paths[m-1][i] = 1; //Filling in the last row with ones
+		paths[i][n-1] = 1; // Filling in the last col with ones
+	}
+  
+	for(int row=m-2; row>=0; row--){
+		for(int col=n-2; col>=0; col--){
+			paths[row][col] = paths[row][col+1] + paths[row+1][col]; //Since the robot can move only right and down, we had path 
+      // discovered by starting from position to it's right + position below it. 
+		}
+	}
+	return paths[0][0]; // When all is done, we return top left value which will be the total paths. 
+}
